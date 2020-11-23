@@ -2,18 +2,19 @@ import java.util.*;
 
 int SIZE = 1000;
 int CELL_SIZE = 1;
+int GRID_SIZE = SIZE / CELL_SIZE;
 
-Boolean[][] GRID = new Boolean[SIZE][SIZE];
-Boolean[][] NEXT_GRID = new Boolean[SIZE][SIZE];
+Boolean[][] GRID = new Boolean[GRID_SIZE][GRID_SIZE];
+Boolean[][] NEXT_GRID = new Boolean[GRID_SIZE][GRID_SIZE];
 
 Random RANDOM = new Random();
 
 void initGrid(Boolean[][] grid)
 {
-  for (int col = 0; col < SIZE; col++)
+  for (int col = 0; col < GRID_SIZE; col++)
   {
-    Boolean[] colOfCells =  new Boolean[SIZE];
-    for (int row = 0; row < SIZE; row++)  
+    Boolean[] colOfCells =  new Boolean[GRID_SIZE];
+    for (int row = 0; row < GRID_SIZE; row++)  
     {
       colOfCells[row] = RANDOM.nextBoolean() && 
       RANDOM.nextBoolean();
@@ -37,9 +38,9 @@ void draw()
   background(255);
   fill(0);
 
-  for (int col = 0; col < SIZE; col++)
+  for (int col = 0; col < GRID_SIZE; col++)
   {
-    for (int row = 0; row < SIZE; row++)  
+    for (int row = 0; row < GRID_SIZE; row++)  
     {
       if (GRID[col][row] == true)
       {
