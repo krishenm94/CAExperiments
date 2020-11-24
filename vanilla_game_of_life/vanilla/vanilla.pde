@@ -1,6 +1,6 @@
 import java.util.*;
 
-int CELL_SIZE = 5;
+int CELL_SIZE = 2;
 
 Boolean[][] GRID;
 Boolean[][] NEXT_GRID;
@@ -8,38 +8,6 @@ int COLS;
 int ROWS;
 
 Random RANDOM = new Random();
-
-Boolean[][] makeRandomGrid(int cols, int rows)
-{
-  Boolean[][] grid = new Boolean[cols][rows];
-  for (int col = 0; col < cols; col++)
-  {
-    Boolean[] colOfCells =  new Boolean[rows];
-    for (int row = 0; row < rows; row++)  
-    {
-      colOfCells[row] = RANDOM.nextBoolean() && RANDOM.nextBoolean();
-    }
-    grid[col] = colOfCells;
-  }
-
-  return grid;
-}
-
-Boolean[][] makeGrid(int cols, int rows)
-{
-  Boolean[][] grid = new Boolean[cols][rows];
-  for (int col = 0; col < cols; col++)
-  {
-    Boolean[] colOfCells =  new Boolean[rows];
-    for (int row = 0; row < rows; row++)  
-    {
-      colOfCells[row] = false;
-    }
-    grid[col] = colOfCells;
-  }
-
-  return grid;
-}
 
 void setup()
 {
@@ -87,8 +55,8 @@ void draw()
         square(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE);
       }
 
-      //update(row, col, 74);
-      vanilla_update(row, col);
+      update(row, col, unbinary("10011010"));
+      //vanilla_update(row, col);
     }
   }
 

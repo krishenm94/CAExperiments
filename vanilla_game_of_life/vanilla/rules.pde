@@ -1,4 +1,5 @@
 int MOORE_NEIGHBOURS = 8;
+int MOORE_CODE = int(pow(2, MOORE_NEIGHBOURS));
 
 int countNeighbours(int row, int col)
 {
@@ -17,9 +18,10 @@ int countNeighbours(int row, int col)
 void update(int row, int col, int wolframCode)
 {
   int neighbours = countNeighbours(row, col);
-  for (int mask = 1; mask < pow(2, MOORE_NEIGHBOURS); mask = mask << 1)
+  int neighbourCode = int(pow(2, neighbours));
+  for (int mask = 1; mask < MOORE_CODE; mask = mask << 1)
   {
-    if ((wolframCode & mask) == neighbours)
+    if ((wolframCode & mask) == pow(2, neighbours))
     {
       NEXT_GRID[col][row] = true;
       return;
