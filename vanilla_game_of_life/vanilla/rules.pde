@@ -32,7 +32,7 @@ void mooreUpdate(int row, int col, int code)
   NEXT_GRID[col][row] = false;
 }
 
-void vanillaUpdate(int row, int col)
+void conwaysUpdate(int row, int col)
 {
   int neighbours = countNeighbours(row, col);
   if (neighbours < 2 || neighbours > 3)

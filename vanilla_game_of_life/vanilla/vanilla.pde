@@ -13,7 +13,6 @@ void setup()
 {
   size(800, 800);
   background(255);
- // smooth(8);
   //frameRate(7);
   COLS = width/ CELL_SIZE;
   ROWS = height / CELL_SIZE;
@@ -61,14 +60,10 @@ void draw()
         square(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE);
       }
 
-      // wolframUpdate(row, col, unbinary("10011000"));
-
-      //vanillaUpdate(row, col);
-
       if (keyPressed)
       {
         if (key == 'g') {
-          vanillaUpdate(row, col);
+          conwaysUpdate(row, col);
         } else {
           mooreUpdate(row, col, 50);
           //mooreUpdate(row, col, unbinary("10011001"));
