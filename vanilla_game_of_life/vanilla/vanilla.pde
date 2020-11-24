@@ -1,36 +1,41 @@
 import java.util.*;
 
-int SIZE = 1000;
-int CELL_SIZE = 1;
-int GRID_SIZE = SIZE / CELL_SIZE;
+int CELL_SIZE = 10;
 
-Boolean[][] GRID = new Boolean[GRID_SIZE][GRID_SIZE];
-Boolean[][] NEXT_GRID = new Boolean[GRID_SIZE][GRID_SIZE];
+Boolean[][] GRID;
+Boolean[][] NEXT_GRID;
+int COLS;
+int ROWS;
 
 Random RANDOM = new Random();
 
-void initGrid(Boolean[][] grid)
+Boolean[][] makeGrid(int cols, int rows)
 {
-  for (int col = 0; col < GRID_SIZE; col++)
+  Boolean[][] grid = new Boolean[cols][rows];
+  for (int col = 0; col < cols; col++)
   {
-    Boolean[] colOfCells =  new Boolean[GRID_SIZE];
-    for (int row = 0; row < GRID_SIZE; row++)  
+    Boolean[] colOfCells =  new Boolean[rows];
+    for (int row = 0; row < rows; row++)  
     {
-      colOfCells[row] = RANDOM.nextBoolean() && 
-      RANDOM.nextBoolean();
+      colOfCells[row] = RANDOM.nextBoolean() && RANDOM.nextBoolean();
     }
     grid[col] = colOfCells;
   }
+
+  return grid;
 }
 
 void setup()
 {
-  size(1000, 1000);
+  size(1600, 1000);
   background(255);
   smooth();
+  frameRate(10);
+  COLS = width/ CELL_SIZE;
+  ROWS = height / CELL_SIZE;
 
-  initGrid(GRID);
-  initGrid(NEXT_GRID);
+  GRID = makeGrid(COLS, ROWS);
+  NEXT_GRID = makeGrid(COLS, ROWS);
 }
 
 void draw()
@@ -38,13 +43,13 @@ void draw()
   background(255);
   fill(0);
 
-  for (int col = 0; col < GRID_SIZE; col++)
+  for (int col = 0; col < COLS; col++)
   {
-    for (int row = 0; row < GRID_SIZE; row++)  
+    for (int row = 0; row < ROWS; row++)  
     {
       if (GRID[col][row] == true)
       {
-        square(row, col, CELL_SIZE);
+        square(row * CELL_SIZE, col * CELL_SIZE, CELL_SIZE);
       }
 
       int neighbours = countNeighbours(row, col);
@@ -60,7 +65,7 @@ void draw()
       }
     }
   }
-  
+
   Boolean[][] temp = GRID;
   GRID = NEXT_GRID;
   NEXT_GRID = temp;
@@ -71,9 +76,9 @@ int countNeighbours(int row, int col)
   int sum = 0;
   for (int i = -1; i < 2; i++) {
     for (int j = -1; j < 2; j++) {
-      int x = (col + i + SIZE) % SIZE;
-      int y = (row + j + SIZE) % SIZE;
-      sum += GRID[y][x]? 1 : 0;
+      int x = (col + i + COLS) % COLS;
+      int y = (row + j + ROWS) % ROWS;
+      sum += GRID[x][y]? 1 : 0;
     }
   }
   sum -= GRID[col][row] ? 1 : 0;
