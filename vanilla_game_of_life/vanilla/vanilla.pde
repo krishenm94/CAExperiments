@@ -1,6 +1,6 @@
 import java.util.*;
 
-int CELL_SIZE = 10;
+int CELL_SIZE = 2;
 
 Boolean[][] GRID;
 Boolean[][] NEXT_GRID;
@@ -30,7 +30,7 @@ void setup()
   size(1600, 1000);
   background(255);
   smooth();
-  frameRate(10);
+  //frameRate(10);
   COLS = width/ CELL_SIZE;
   ROWS = height / CELL_SIZE;
 
@@ -49,7 +49,7 @@ void draw()
     {
       if (GRID[col][row] == true)
       {
-        square(row * CELL_SIZE, col * CELL_SIZE, CELL_SIZE);
+        square(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE);
       }
 
       int neighbours = countNeighbours(row, col);
