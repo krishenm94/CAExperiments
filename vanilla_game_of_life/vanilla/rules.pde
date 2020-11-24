@@ -15,13 +15,14 @@ int countNeighbours(int row, int col)
   return sum;
 }
 
-void update(int row, int col, int wolframCode)
+void mooreUpdate(int row, int col, int code)
 {
   int neighbours = countNeighbours(row, col);
+  
   int neighbourCode = int(pow(2, neighbours));
   for (int mask = 1; mask < MOORE_CODE; mask = mask << 1)
   {
-    if ((wolframCode & mask) == pow(2, neighbours))
+    if ((code & mask) == neighbourCode)
     {
       NEXT_GRID[col][row] = true;
       return;
@@ -31,7 +32,7 @@ void update(int row, int col, int wolframCode)
   NEXT_GRID[col][row] = false;
 }
 
-void vanilla_update(int row, int col)
+void vanillaUpdate(int row, int col)
 {
   int neighbours = countNeighbours(row, col);
   if (neighbours < 2 || neighbours > 3)
