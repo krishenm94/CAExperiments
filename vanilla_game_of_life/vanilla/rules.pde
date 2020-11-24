@@ -15,10 +15,10 @@ int countNeighbours(int row, int col)
   return sum;
 }
 
-void mooreUpdate(int row, int col, int code)
+void mooreGreedy(int row, int col, int code)
 {
   int neighbours = countNeighbours(row, col);
-  
+
   int neighbourCode = int(pow(2, neighbours));
   for (int mask = 1; mask < MOORE_CODE; mask = mask << 1)
   {
@@ -32,7 +32,54 @@ void mooreUpdate(int row, int col, int code)
   NEXT_GRID[col][row] = false;
 }
 
-void conwaysUpdate(int row, int col)
+void mooreFlip(int row, int col, int code)
+{
+  int neighbours = countNeighbours(row, col);
+
+  int neighbourCode = int(pow(2, neighbours));
+  NEXT_GRID[col][row] = GRID[col][row];
+
+  for (int mask = 1; mask < MOORE_CODE; mask = mask << 1)
+  {
+    if ((code & mask) == neighbourCode)
+    {
+      NEXT_GRID[col][row] = !NEXT_GRID[col][row];
+    }
+  }
+}
+
+void wolframUpdate(int row, int col, int code)
+{
+  int pattern = 0;
+  for (int i = -1; i < 2; i++)
+  {
+    int x = (col + i + COLS) % COLS;
+    if ( GRID[x][row] = true)
+    {
+      pattern += pow(2, 2+i);
+    }
+  }
+
+  for (int mask = 1, counter = 0; mask < MOORE_CODE; mask = mask << 1, counter++)
+  {
+    if (counter != pattern)
+    {
+      continue;
+    }
+    
+    if ((code & mask) > 0)
+    {
+      NEXT_GRID[col][(row + 1 + ROWS) % ROWS] = true;
+    }
+    else
+    {
+      NEXT_GRID[col][(row + 1 + ROWS) % ROWS] = false;
+    } 
+  }
+}
+
+
+void conwaysRule(int row, int col)
 {
   int neighbours = countNeighbours(row, col);
   if (neighbours < 2 || neighbours > 3)

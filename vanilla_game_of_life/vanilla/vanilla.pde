@@ -25,7 +25,7 @@ void drawSquare(int size)
 {
   // real square dim = 2*size + 1
   int col = int(mouseX / CELL_SIZE);
-  int row = int(mouseY/CELL_SIZE);
+  int row = int(mouseY / CELL_SIZE);
 
   for (int i = -size; i < size+1; i++) {
     for (int j = -size; j < size+1; j++) {
@@ -42,7 +42,7 @@ void draw()
 
   if ( mousePressed  && mouseButton == LEFT)
   {
-    drawSquare(2);
+    drawSquare(0);
   }
 
   if (mousePressed && mouseButton == RIGHT)
@@ -63,10 +63,11 @@ void draw()
       if (keyPressed)
       {
         if (key == 'g') {
-          conwaysUpdate(row, col);
+          conwaysRule(row, col);
         } else {
-          mooreUpdate(row, col, 50);
-          //mooreUpdate(row, col, unbinary("10011001"));
+          //mooreFlip(row, col, 76);
+          //mooreGreedy(row, col, unbinary("10011001"));
+          wolframUpdate(row, col, 110);
         }
       }
     }
