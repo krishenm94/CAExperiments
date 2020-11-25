@@ -13,7 +13,7 @@ void setup()
 {
   size(800, 800);
   background(255);
-  frameRate(10);
+  //frameRate(10);
   COLS = width/ CELL_SIZE;
   ROWS = height / CELL_SIZE;
 
@@ -38,7 +38,7 @@ void drawSquare(int size)
 void draw()
 {
   // Don't reset background if elementary rule is applied
-  if (key != 'w')
+  if (key != 'e')
   {
     background(255);
   }
@@ -74,7 +74,7 @@ void draw()
           mooreFlip(row, col, 46);
         } else if (key == 'g') {
           mooreGreedy(row, col, 201);
-        } else if (key == 'w') {
+        } else if (key == 'e') {
           elementaryRule(row, col, 60);
         }
       }

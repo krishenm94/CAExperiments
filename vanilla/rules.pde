@@ -48,13 +48,11 @@ void mooreFlip(int row, int col, int code)
 
 void elementaryRule(int row, int col, int code)
 {
-  //NEXT_GRID[col][row] = GRID[col][row];
-    
   int pattern = 0;
   for (int i = -1; i < 2; i++) {
     int x = (col + i + COLS) % COLS;
     if ( GRID[x][row] == true) {
-      pattern += pow(2, 1+i);
+      pattern += pow(2, -i+1);
     }
   }
 
