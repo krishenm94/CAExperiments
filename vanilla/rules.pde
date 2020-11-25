@@ -54,7 +54,7 @@ void wolframUpdate(int row, int col, int code)
   for (int i = -1; i < 2; i++)
   {
     int x = (col + i + COLS) % COLS;
-    if ( GRID[x][row] = true)
+    if ( GRID[x][row] == true)
     {
       pattern += pow(2, 2+i);
     }

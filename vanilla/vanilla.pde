@@ -1,6 +1,6 @@
 import java.util.*;
 
-int CELL_SIZE = 2;
+int CELL_SIZE = 4;
 
 Boolean[][] GRID;
 Boolean[][] NEXT_GRID;
@@ -13,7 +13,7 @@ void setup()
 {
   size(800, 800);
   background(255);
-  //frameRate(7);
+  frameRate(10);
   COLS = width/ CELL_SIZE;
   ROWS = height / CELL_SIZE;
 
@@ -62,12 +62,18 @@ void draw()
 
       if (keyPressed)
       {
-        if (key == 'g') {
+        if (key >= '0' && key <= '9')
+        {
+          mooreFlip(row, col, Character.getNumericValue(key));
+        }
+        else if (key == 'l') {
           conwaysRule(row, col);
-        } else {
-          //mooreFlip(row, col, 76);
-          //mooreGreedy(row, col, unbinary("10011001"));
-          wolframUpdate(row, col, 110);
+        } else if (key == 'f'){
+          mooreFlip(row, col, 201);
+        }else if (key == 'g'){
+          mooreGreedy(row, col, 201);
+        }else if (key == 'w'){
+          wolframUpdate(row, col, 11);
         }
       }
     }
