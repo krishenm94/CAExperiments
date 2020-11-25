@@ -7,6 +7,8 @@ Boolean[][] NEXT_GRID;
 int COLS;
 int ROWS;
 
+int RULE = 30;
+
 Random RANDOM = new Random();
 
 void setup()
@@ -42,7 +44,8 @@ void draw()
   {
     background(255);
   }
-  fill(0);
+  fill(255, 0, 0);
+  stroke(0);
 
   if ( mousePressed  && mouseButton == LEFT)
   {
@@ -71,11 +74,11 @@ void draw()
         } else if (key == 'l') {
           conwaysRule(row, col);
         } else if (key == 'f') {
-          mooreFlip(row, col, 46);
+          mooreFlip(row, col, RULE);
         } else if (key == 'g') {
-          mooreGreedy(row, col, 201);
+          mooreGreedy(row, col, RULE);
         } else if (key == 'e') {
-          elementaryRule(row, col, 60);
+          elementaryRule(row, col, RULE);
         }
       }
     }

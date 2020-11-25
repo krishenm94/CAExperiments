@@ -46,6 +46,7 @@ void mooreFlip(int row, int col, int code)
   }
 }
 
+// Rule list: https://mathworld.wolfram.com/ElementaryCellularAutomaton.html
 void elementaryRule(int row, int col, int code)
 {
   int pattern = 0;
@@ -56,7 +57,7 @@ void elementaryRule(int row, int col, int code)
     }
   }
 
-  for (int mask = 1, counter = 0; mask < MOORE_CODE; mask = mask << 1, counter++) {
+  for (int mask = 1, counter = 0; counter < 8; mask = mask << 1, counter++) {
     if (counter != pattern) {
       continue;
     }
