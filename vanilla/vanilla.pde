@@ -37,7 +37,11 @@ void drawSquare(int size)
 }
 void draw()
 {
-  background(255);
+  // Don't reset background if elementary rule is applied
+  if (key != 'w')
+  {
+    background(255);
+  }
   fill(0);
 
   if ( mousePressed  && mouseButton == LEFT)
@@ -62,18 +66,16 @@ void draw()
 
       if (keyPressed)
       {
-        if (key >= '0' && key <= '9')
-        {
+        if (key >= '0' && key <= '9') {
           mooreFlip(row, col, Character.getNumericValue(key));
-        }
-        else if (key == 'l') {
+        } else if (key == 'l') {
           conwaysRule(row, col);
-        } else if (key == 'f'){
-          mooreFlip(row, col, 201);
-        }else if (key == 'g'){
+        } else if (key == 'f') {
+          mooreFlip(row, col, 46);
+        } else if (key == 'g') {
           mooreGreedy(row, col, 201);
-        }else if (key == 'w'){
-          wolframUpdate(row, col, 11);
+        } else if (key == 'w') {
+          elementaryRule(row, col, 60);
         }
       }
     }

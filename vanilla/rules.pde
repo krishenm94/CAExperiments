@@ -39,42 +39,35 @@ void mooreFlip(int row, int col, int code)
   int neighbourCode = int(pow(2, neighbours));
   NEXT_GRID[col][row] = GRID[col][row];
 
-  for (int mask = 1; mask < MOORE_CODE; mask = mask << 1)
-  {
-    if ((code & mask) == neighbourCode)
-    {
+  for (int mask = 1; mask < MOORE_CODE; mask = mask << 1) {
+    if ((code & mask) == neighbourCode) {
       NEXT_GRID[col][row] = !NEXT_GRID[col][row];
     }
   }
 }
 
-void wolframUpdate(int row, int col, int code)
+void elementaryRule(int row, int col, int code)
 {
+  //NEXT_GRID[col][row] = GRID[col][row];
+    
   int pattern = 0;
-  for (int i = -1; i < 2; i++)
-  {
+  for (int i = -1; i < 2; i++) {
     int x = (col + i + COLS) % COLS;
-    if ( GRID[x][row] == true)
-    {
-      pattern += pow(2, 2+i);
+    if ( GRID[x][row] == true) {
+      pattern += pow(2, 1+i);
     }
   }
 
-  for (int mask = 1, counter = 0; mask < MOORE_CODE; mask = mask << 1, counter++)
-  {
-    if (counter != pattern)
-    {
+  for (int mask = 1, counter = 0; mask < MOORE_CODE; mask = mask << 1, counter++) {
+    if (counter != pattern) {
       continue;
     }
-    
-    if ((code & mask) > 0)
-    {
+
+    if ((code & mask) > 0) {
       NEXT_GRID[col][(row + 1 + ROWS) % ROWS] = true;
-    }
-    else
-    {
+    } else {
       NEXT_GRID[col][(row + 1 + ROWS) % ROWS] = false;
-    } 
+    }
   }
 }
 
