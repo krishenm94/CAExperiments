@@ -1,10 +1,11 @@
 class HexGrid { //<>//
   Hexagon[][] cells;
   Hexagon[][] nextCells;
+  int rule = 1;
 
   HexGrid(float radius) {
-    int cols = int(width/((radius*3)/2));
-    int rows = int(height/(sqrt(3)*radius))+1;
+    int cols = floor(width/((radius*3)/2));
+    int rows = floor(height/(sqrt(3)*radius)) + 1;
 
     print("Cols, Rows: " + cols + ", " + rows + "\n");
 
@@ -20,11 +21,12 @@ class HexGrid { //<>//
 
     for (int i = 0, x = initX, y = initY; 
       i < cols; 
-      i++, x += (radius*3/2), y = i%2 ==1? int(radius*sqrt(3)/2):int(sqrt(3)*radius)) {
-      for (int j = 0; j < rows; j++) {
+      i++, x += (radius*3/2), y = i%2==1 ? int(radius*sqrt(3)/2):int(sqrt(3)*radius)) {
+      for (int j = 0; 
+        j < rows; 
+        j++, y += radius*sqrt(3)) { //<>//
         grid[i][j] = new Hexagon(x, y, radius);
-        y += radius*sqrt(3);
-      } //<>//
+      }
     }
 
     grid[cols/2 - 1][rows/2 - 1].state = true;
@@ -37,8 +39,10 @@ class HexGrid { //<>//
       for (int j = 0; j < cells[i].length; j++) {
         cells[i][j].draw();
 
-        if (countNeighbours(i, j) == 1) {
+        if (countNeighbours(i, j) == rule) {
           nextCells[i][j].state = true;
+        } else {
+          nextCells[i][j].state = cells[i][j].state;
         }
       }
     }
@@ -61,7 +65,6 @@ class HexGrid { //<>//
         }
       } else {
         for (int j = -1 + offset; j < 1 + offset; j++) {
-
           int y = (row + j + cells[x].length) % cells[x].length;
           sum += cells[x][y].state? 1 : 0;
         }
