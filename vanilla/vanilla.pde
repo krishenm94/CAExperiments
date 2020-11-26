@@ -15,7 +15,7 @@ void setup()
 {
   size(800, 800);
   background(255);
-  //frameRate(10);
+  //frameRate(1);
   COLS = width/ CELL_SIZE;
   ROWS = height / CELL_SIZE;
 
@@ -39,11 +39,7 @@ void drawSquare(int size)
 }
 void draw()
 {
-  // Don't reset background if elementary rule is applied
-  if (key != 'e')
-  {
-    background(255);
-  }
+  background(255);
   fill(255, 0, 0);
   stroke(0);
 
@@ -70,7 +66,7 @@ void draw()
       if (keyPressed)
       {
         if (key >= '0' && key <= '9') {
-          mooreFlip(row, col, Character.getNumericValue(key));
+          mooreGreedy(row, col, Character.getNumericValue(key));
         } else if (key == 'l') {
           conwaysRule(row, col);
         } else if (key == 'f') {

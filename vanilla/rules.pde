@@ -18,12 +18,10 @@ int countNeighbours(int row, int col)
 void mooreGreedy(int row, int col, int code)
 {
   int neighbours = countNeighbours(row, col);
+  int neighbourCode = int(pow(2, neighbours - 1));
 
-  int neighbourCode = int(pow(2, neighbours));
-  for (int mask = 1; mask < MOORE_CODE; mask = mask << 1)
-  {
-    if ((code & mask) == neighbourCode)
-    {
+  for (int mask = 0; mask < MOORE_CODE; mask = mask << 1) {
+    if ((code & mask) == neighbourCode) {
       NEXT_GRID[col][row] = true;
       return;
     }
@@ -35,11 +33,11 @@ void mooreGreedy(int row, int col, int code)
 void mooreFlip(int row, int col, int code)
 {
   int neighbours = countNeighbours(row, col);
+  int neighbourCode = int(pow(2, neighbours - 1));
 
-  int neighbourCode = int(pow(2, neighbours));
   NEXT_GRID[col][row] = GRID[col][row];
 
-  for (int mask = 1; mask < MOORE_CODE; mask = mask << 1) {
+  for (int mask = 0; mask < MOORE_CODE; mask = mask << 1) {
     if ((code & mask) == neighbourCode) {
       NEXT_GRID[col][row] = !NEXT_GRID[col][row];
     }
@@ -62,11 +60,9 @@ void elementaryRule(int row, int col, int code)
       continue;
     }
 
-    if ((code & mask) > 0) {
-      NEXT_GRID[col][(row + 1 + ROWS) % ROWS] = true;
-    } else {
-      NEXT_GRID[col][(row + 1 + ROWS) % ROWS] = false;
-    }
+    Boolean value = (code & mask) > 0? true : false;
+
+    NEXT_GRID[col][(row + 1 + ROWS) % ROWS] = value;
   }
 }
 
