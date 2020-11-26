@@ -13,3 +13,9 @@ Various CA rules implemented to a 2D grid:
 2. Moore Flip
 3. Moore Greedy
 4. 1D Elementary along X-Axis
+
+## snowflake
+
+Simulation of simple snowflake formation
+
+
