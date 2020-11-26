@@ -9,8 +9,14 @@ class Hexagon {
   }
 
   void draw() {
+    if (state) {
+      fill(255, 0, 0);
+    } else {
+      fill(255);
+    }
+
     beginShape();
-      for (float i = 0; i < TWO_PI; i += TWO_PI/6) {
+    for (float i = 0; i < TWO_PI; i += TWO_PI/6) {
       float x = center.x + cos(i) * radius;
       float y = center.y + sin(i) * radius;
       vertex(x, y);

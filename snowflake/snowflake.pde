@@ -5,7 +5,7 @@ void setup() {
   background(255);
 
   stroke(0);
-  fill(255, 0, 0);
+  frameRate(1);
 
   GRID = new HexGrid(10);
 }
