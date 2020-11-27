@@ -7,7 +7,7 @@ void setup() {
   stroke(0);
   //frameRate(10);
 
-  GRID = new HexGrid(4);
+  GRID = new HexGrid(5);
 }
 
 void draw() {

@@ -16,12 +16,13 @@ class HexGrid { //<>//
   Hexagon[][] makeGrid(int cols, int rows, float radius) {
     Hexagon[][] grid = new Hexagon[cols][rows];
 
-    int initX = int(radius);
-    int initY = int(sqrt(3)*radius);
+    float initX = radius;
+    float initY = sqrt(3)*radius;
+    
+    float x = initX;
+    float y = initY;
 
-    for (int i = 0, x = initX, y = initY; 
-      i < cols; 
-      i++, x += (radius*3/2), y = i%2==1 ? int(radius*sqrt(3)/2):int(sqrt(3)*radius)) {
+    for (int i = 0; i < cols; i++, x += (radius*3/2), y = i%2==1 ? radius*sqrt(3)/2:sqrt(3)*radius) {
       for (int j = 0; 
         j < rows; 
         j++, y += radius*sqrt(3)) { //<>//
