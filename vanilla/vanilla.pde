@@ -21,6 +21,8 @@ void setup()
 
   GRID = makeGrid(COLS, ROWS);
   NEXT_GRID = makeGrid(COLS, ROWS);
+  
+  stroke(0);
 }
 
 void drawSquare(int size)

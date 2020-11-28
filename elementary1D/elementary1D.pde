@@ -1,7 +1,7 @@
 int CELL_SIZE = 2;
 int ROW = 0;
 
-int RULE = 60;
+int RULE = 124;
 
 Boolean[] GRID;
 Boolean[] NEXT_GRID;
