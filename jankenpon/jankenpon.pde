@@ -1,7 +1,14 @@
 import java.util.*;
 
 Grid GRID;
+int LIMIT = 4;
+int CELL_SIZE = 20;
+
 color MOUSE_COLOUR;
+
+color RED = color(255, 0, 0);
+color GREEN = color(0, 255, 0);
+color BLUE = color(0, 0, 255);
 
 Random RANDOM = new Random();
 
@@ -12,7 +19,7 @@ void setup()
   //frameRate(1);
 
   stroke(0);
-  GRID = new Grid(20, 5);
+  GRID = new Grid(CELL_SIZE, LIMIT);
 }
 
 void draw()
@@ -24,21 +31,27 @@ void draw()
 
 void updateMouseColor() {
   if (key == 'r') {
-    MOUSE_COLOUR = color(255, 0, 0);
+    MOUSE_COLOUR = RED;
   }
 
   if (key == 'g') {
-    MOUSE_COLOUR = color(0, 255, 0);
+    MOUSE_COLOUR = GREEN;
   }
 
   if (key == 'b') {
-    MOUSE_COLOUR = color(0, 0, 255);
+    MOUSE_COLOUR = BLUE;
   }
 }
 
 void drawMouse(){
   if(!mousePressed)
   {
+    return;
+  }
+  
+  if(mouseButton == RIGHT)
+  {
+    GRID = new Grid(CELL_SIZE, LIMIT);
     return;
   }
   
