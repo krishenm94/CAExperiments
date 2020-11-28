@@ -23,4 +23,9 @@ class Cell {
     m_colour = other.m_colour;
     m_level = other.m_level + 1;
   }
+
+  void eat(Cell other) {
+    other.m_colour = m_colour;
+    other.m_level  = 0;
+  }
 }

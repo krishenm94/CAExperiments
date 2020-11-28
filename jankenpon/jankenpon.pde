@@ -1,8 +1,8 @@
 import java.util.*;
 
 Grid GRID;
-int LIMIT = 4;
-int CELL_SIZE = 20;
+int LIMIT = 6;
+int CELL_SIZE = 5;
 
 color MOUSE_COLOUR;
 

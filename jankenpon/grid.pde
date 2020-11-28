@@ -80,6 +80,11 @@ class Grid {
     if (neighbour.m_colour == 255 && cell.m_level < m_threshold) {
       neighbour.grow(cell);
     }
+    else if (cell.m_colour == RED && neighbour.m_colour == GREEN ||
+    cell.m_colour == GREEN && neighbour.m_colour == BLUE ||
+    cell.m_colour == BLUE && neighbour.m_colour == RED ){
+      cell.eat(neighbour);
+    }
 
     // Sync grids
     int neighbourCol = int(neighbour.m_position.x / m_cellSize);
