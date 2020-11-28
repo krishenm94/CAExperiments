@@ -43,20 +43,24 @@ void updateMouseColor() {
   }
 }
 
-void drawMouse(){
-  if(!mousePressed)
+void drawMouse() {
+  if (!mousePressed)
   {
     return;
   }
-  
-  if(mouseButton == RIGHT)
+
+  if (mouseButton == RIGHT)
   {
     GRID = new Grid(CELL_SIZE, LIMIT);
     return;
   }
-  
+
   int x = int(mouseX / GRID.m_cellSize);
   int y = int(mouseY / GRID.m_cellSize);
-  
+
+  if ( x >= GRID.m_cols || y >= GRID.m_rows || x < 0 || y < 0) {
+    return;
+  }
+
   GRID.m_cells[x][y].m_colour = MOUSE_COLOUR;
 }
