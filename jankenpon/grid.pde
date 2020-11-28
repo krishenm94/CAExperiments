@@ -40,9 +40,12 @@ class Grid {
         Cell cell = m_cells[col][row];
         cell.draw();
 
-        Cell nextCell = m_nextCells[col][row];
+
 
         updateCell(cell, col, row);
+        
+        // Sync grids
+        Cell nextCell = m_nextCells[col][row];      
         nextCell.copy(cell);
       }
     }
@@ -61,7 +64,7 @@ class Grid {
       xOffset = random.nextInt(3) - 1;
       yOffset = random.nextInt(3) - 1;
     }
-
+    
     col = (col + xOffset + m_cols)%m_cols;
     row = (row + yOffset + m_rows)%m_rows;
     return m_cells[col][row];
@@ -77,5 +80,10 @@ class Grid {
     if (neighbour.m_colour == 255 && cell.m_level < m_threshold) {
       neighbour.grow(cell);
     }
+
+    // Sync grids
+    int neighbourCol = int(neighbour.m_position.x / m_cellSize);
+    int neighbourRow = int(neighbour.m_position.y / m_cellSize);
+    m_nextCells[neighbourCol][neighbourRow].copy(neighbour);
   }
 }
