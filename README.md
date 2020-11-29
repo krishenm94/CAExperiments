@@ -22,4 +22,7 @@ Simulation of simple snowflake formation
 
 Rock-Paper-Scissor Cellular Automata
 
+## n_narytrees
+
+Visualising n-nary branching. Angle and number of branches varies with mouse location
 

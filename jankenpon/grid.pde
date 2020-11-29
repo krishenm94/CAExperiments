@@ -47,7 +47,7 @@ class Grid {
           continue;
         }
 
-        updateCell(col, row);
+        updateCell2(col, row);
       }
     }
 
