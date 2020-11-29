@@ -7,7 +7,7 @@ Boolean[][] NEXT_GRID;
 int COLS;
 int ROWS;
 
-int RULE = 30;
+int RULE = 90;
 
 Random RANDOM = new Random();
 
@@ -21,7 +21,7 @@ void setup()
 
   GRID = makeGrid(COLS, ROWS);
   NEXT_GRID = makeGrid(COLS, ROWS);
-  
+
   stroke(0);
 }
 
@@ -47,12 +47,13 @@ void draw()
 
   if ( mousePressed  && mouseButton == LEFT)
   {
-    drawSquare(0);
+    drawSquare(1);
   }
 
   if (mousePressed && mouseButton == RIGHT)
   {
     GRID = makeGrid(COLS, ROWS);
+    NEXT_GRID = makeGrid(COLS, ROWS);
   }
 
 
@@ -65,8 +66,7 @@ void draw()
         square(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE);
       }
 
-      if (keyPressed)
-      {
+      if (keyPressed) {
         if (key >= '0' && key <= '9') {
           mooreGreedy(row, col, Character.getNumericValue(key));
         } else if (key == 'l') {
@@ -77,6 +77,8 @@ void draw()
           mooreGreedy(row, col, RULE);
         } else if (key == 'e') {
           elementaryRule(row, col, RULE);
+        } else if (key == 't'){
+          mooreLife(row, col, RULE);
         }
       }
     }
