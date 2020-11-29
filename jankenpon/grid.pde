@@ -47,7 +47,7 @@ class Grid {
           continue;
         }
 
-        updateCell2(col, row);
+        updateCell(col, row);
       }
     }
 
@@ -56,7 +56,7 @@ class Grid {
     m_nextCells = temp;
   }
 
-  Cell getNextRandomNeighbour(int col, int row) {
+  Cell getRandomNeighbour(int col, int row) {
     int xOffset = 0;
     int yOffset = 0;
 
@@ -68,7 +68,7 @@ class Grid {
 
     col = (col + xOffset + m_cols)%m_cols;
     row = (row + yOffset + m_rows)%m_rows;
-    return m_nextCells[col][row];
+    return m_cells[col][row];
   }
 
   Cell getRandomNeighbourNoWrap(int col, int row) {
@@ -100,46 +100,55 @@ class Grid {
 
   void updateCell(int col, int row) {
     Cell cell = m_cells[col][row];
-    Cell neighbour = getNextRandomNeighbour(col, row);
-
-    if (cell.m_colour == 255 && neighbour.m_level < m_growthThreshold && neighbour.m_colour != 255) {
-      cell.grow(neighbour);
-    } else if (neighbour.m_colour == RED && cell.m_colour == GREEN ||
-      neighbour.m_colour == GREEN && cell.m_colour == BLUE ||
-      neighbour.m_colour == BLUE && cell.m_colour == RED ) {
-      neighbour.eat(cell);
-    }
-
-    // Sync grids
-    int neighbourCol = int(neighbour.m_position.x / m_cellSize);
-    int neighbourRow = int(neighbour.m_position.y / m_cellSize);
-    m_cells[neighbourCol][neighbourRow].copy(neighbour);
-  }
-
-  void updateCell2(int col, int row) {
-    Cell cell = m_cells[col][row];
-    Cell nextCell = m_nextCells[col][row];
 
     if (cell.m_colour == 255) {
       return;
     }
 
-    Cell neighbour = getNextRandomNeighbour(col, row);
+    Cell nextCell = m_nextCells[col][row];
+    Cell neighbour = getRandomNeighbour(col, row);
+
+    if (neighbour.m_colour == 255 && cell.m_level < m_growthThreshold && cell.m_colour != 255) {
+      
+      int neighbourCol = int(neighbour.m_position.x / m_cellSize);
+      int neighbourRow = int(neighbour.m_position.y / m_cellSize);
+      m_nextCells[neighbourCol][neighbourRow].grow(cell);
+      
+    } else if (neighbour.m_colour == RED && cell.m_colour == GREEN ||
+      neighbour.m_colour == GREEN && cell.m_colour == BLUE ||
+      neighbour.m_colour == BLUE && cell.m_colour == RED ) {
+      neighbour.eat(nextCell);
+      return;
+    }
+
+    // Sync grids
+    nextCell.copy(cell);
+  }
+
+  void updateCell2(int col, int row) {
+    Cell cell = m_cells[col][row];
+
+    if (cell.m_colour == 255) {
+      return;
+    }
+
+    Cell nextCell = m_nextCells[col][row];
+    Cell neighbour = getRandomNeighbour(col, row);
     if (neighbour.m_colour == 255 && cell.m_level < m_growthThreshold) {
-      neighbour.grow(cell);
+
+      int neighbourCol = int(neighbour.m_position.x / m_cellSize);
+      int neighbourRow = int(neighbour.m_position.y / m_cellSize);
+      m_nextCells[neighbourCol][neighbourRow].grow(cell);
 
       // Sync grids
       nextCell.copy(cell);
-      int neighbourCol = int(neighbour.m_position.x / m_cellSize);
-      int neighbourRow = int(neighbour.m_position.y / m_cellSize);
-      m_cells[neighbourCol][neighbourRow].copyDontUpdate(neighbour);
 
       return;
     } 
 
     int neighbourPredatorCount = getNeighbourhoodPredatorCount(cell, col, row);
 
-    //if (neighbourPredatorCount < m_predationThreshold + (random.nextInt(3) - 1)) {
+    //if (neighbourPredatorCount < m_predationThreshold + (random.nextInt(2))) {
       if (neighbourPredatorCount < m_predationThreshold) {
       nextCell.copy(cell);
       return;

@@ -3,7 +3,7 @@ import java.util.*;
 Grid GRID;
 int GROWTH_LIMIT = 10;
 int PREDATION_THRESHOLD = 3;
-int CELL_SIZE = 4;
+int CELL_SIZE = 3;
 
 color MOUSE_COLOUR;
 
