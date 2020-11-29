@@ -1,19 +1,21 @@
-import java.util.*;
+import java.util.*; //<>//
 
 class Grid {
   Cell[][] m_cells;
   Cell[][] m_nextCells;
   float m_cellSize;
-  int m_threshold;
+  int m_growthThreshold;
+  int m_predationThreshold;
 
   int m_cols;
   int m_rows;
 
   Random random = new Random();
 
-  Grid(float cellSize, int threshold) {
+  Grid(float cellSize, int threshold, int predationThreshold) {
     m_cellSize = cellSize;
-    m_threshold = threshold;
+    m_growthThreshold = threshold;
+    m_predationThreshold = predationThreshold;
 
     m_cols = int(width/cellSize);
     m_rows = int(height/cellSize);
@@ -40,13 +42,12 @@ class Grid {
         Cell cell = m_cells[col][row];
         cell.draw();
 
+        if (cell.m_dontUpdate == true) {
+          cell.m_dontUpdate = false;
+          continue;
+        }
 
-
-        updateCell(cell, col, row);
-        
-        // Sync grids
-        Cell nextCell = m_nextCells[col][row];      
-        nextCell.copy(cell);
+        updateCell(col, row);
       }
     }
 
@@ -55,7 +56,7 @@ class Grid {
     m_nextCells = temp;
   }
 
-  Cell getRandomNeighbour(int col, int row) {
+  Cell getNextRandomNeighbour(int col, int row) {
     int xOffset = 0;
     int yOffset = 0;
 
@@ -64,25 +65,152 @@ class Grid {
       xOffset = random.nextInt(3) - 1;
       yOffset = random.nextInt(3) - 1;
     }
-    
+
     col = (col + xOffset + m_cols)%m_cols;
     row = (row + yOffset + m_rows)%m_rows;
+    return m_nextCells[col][row];
+  }
+
+  Cell getRandomNeighbourNoWrap(int col, int row) {
+    int xOffset = 0;
+    int yOffset = 0;
+
+    while (xOffset == 0 && yOffset == 0)
+    {
+      xOffset = random.nextInt(3) - 1;
+      yOffset = random.nextInt(3) - 1;
+    }
+
+    col = clampTo(width, col + xOffset);
+    row = clampTo(height, row + yOffset);
     return m_cells[col][row];
   }
 
-  void updateCell(Cell cell, int col, int row) {
+  int clampTo(int limit, int x) {
+    if (x >= limit / m_cellSize) {
+      return int(limit / m_cellSize) - 1;
+    }
+
+    if (x < 0) {
+      return 0;
+    }
+
+    return x;
+  }
+
+  void updateCell(int col, int row) {
+    Cell cell = m_cells[col][row];
+    Cell neighbour = getNextRandomNeighbour(col, row);
+
+    if (cell.m_colour == 255 && neighbour.m_level < m_growthThreshold && neighbour.m_colour != 255) {
+      cell.grow(neighbour);
+    } else if (neighbour.m_colour == RED && cell.m_colour == GREEN ||
+      neighbour.m_colour == GREEN && cell.m_colour == BLUE ||
+      neighbour.m_colour == BLUE && cell.m_colour == RED ) {
+      neighbour.eat(cell);
+    }
+
+    // Sync grids
+    int neighbourCol = int(neighbour.m_position.x / m_cellSize);
+    int neighbourRow = int(neighbour.m_position.y / m_cellSize);
+    m_cells[neighbourCol][neighbourRow].copy(neighbour);
+  }
+
+  void updateCell2(int col, int row) {
+    Cell cell = m_cells[col][row];
+    Cell nextCell = m_nextCells[col][row];
+
     if (cell.m_colour == 255) {
       return;
     }
 
-    Cell neighbour = getRandomNeighbour(col, row);
-
-    if (neighbour.m_colour == 255 && cell.m_level < m_threshold) {
+    Cell neighbour = getNextRandomNeighbour(col, row);
+    if (neighbour.m_colour == 255 && cell.m_level < m_growthThreshold) {
       neighbour.grow(cell);
+
+      // Sync grids
+      nextCell.copy(cell);
+      int neighbourCol = int(neighbour.m_position.x / m_cellSize);
+      int neighbourRow = int(neighbour.m_position.y / m_cellSize);
+      m_cells[neighbourCol][neighbourRow].copyDontUpdate(neighbour);
+
+      return;
+    } 
+
+    int neighbourPredatorCount = getNeighbourhoodPredatorCount(cell, col, row);
+
+    if (neighbourPredatorCount < m_predationThreshold + (random.nextInt(3) - 1)) {
+      //if (neighbourPredatorCount < m_predationThreshold) {
+      nextCell.copy(cell);
+      return;
     }
-    else if (cell.m_colour == RED && neighbour.m_colour == GREEN ||
-    cell.m_colour == GREEN && neighbour.m_colour == BLUE ||
-    cell.m_colour == BLUE && neighbour.m_colour == RED ){
+
+    nextCell.m_colour = getPredatorColour(cell);
+    nextCell.m_level = 0;
+    nextCell.m_dontUpdate = false;
+  }
+
+  int getNeighbourhoodPredatorCount(Cell cell, int col, int row) {
+    int sum = 0;
+    for (int i = -1; i < 2; i++) {
+      for (int j = -1; j<2; j++) {
+        int x = (col + i + m_cols) % m_cols;
+        int y = (row + j + m_rows) % m_rows;
+        if (m_cells[x][y].m_colour == getPredatorColour(cell)) {
+          sum++;
+        }
+      }
+    }
+
+    return sum;
+  }
+
+  int getNeighbourhoodPredatorCountNoWrap(Cell cell, int col, int row) {
+    int sum = 0;
+    for (int i = -1; i < 2; i++) {
+      for (int j = -1; j<2; j++) {
+        int x = (col + i);
+        int y = (row + j);
+
+        if ( x < 0 || y < 0 || x  >= int(width/m_cellSize) || y >= int(height/m_cellSize))
+        {
+          continue;
+        }
+        if (m_cells[x][y].m_colour == getPredatorColour(cell)) {
+          sum++;
+        }
+      }
+    }
+
+    return sum;
+  }
+
+  color getPredatorColour(Cell cell) {
+    if (cell.m_colour == RED) {
+      return BLUE;
+    }
+    if (cell.m_colour == GREEN) {
+      return RED;
+    }
+    if (cell.m_colour == BLUE) {
+      return GREEN;
+    }
+
+    return 0;
+  }
+
+  void updateCell3(Cell cell, int col, int row) {
+    if (cell.m_colour == 255) {
+      return;
+    }
+
+    Cell neighbour = getRandomNeighbourNoWrap(col, row);
+
+    if (neighbour.m_colour == 255 && cell.m_level < m_growthThreshold) {
+      neighbour.grow(cell);
+    } else if (cell.m_colour == RED && neighbour.m_colour == GREEN ||
+      cell.m_colour == GREEN && neighbour.m_colour == BLUE ||
+      cell.m_colour == BLUE && neighbour.m_colour == RED ) {
       cell.eat(neighbour);
     }
 

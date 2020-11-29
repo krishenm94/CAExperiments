@@ -1,8 +1,9 @@
 import java.util.*;
 
 Grid GRID;
-int LIMIT = 6;
-int CELL_SIZE = 5;
+int GROWTH_LIMIT = 10;
+int PREDATION_THRESHOLD = 3;
+int CELL_SIZE = 4;
 
 color MOUSE_COLOUR;
 
@@ -19,7 +20,7 @@ void setup()
   //frameRate(1);
 
   stroke(0);
-  GRID = new Grid(CELL_SIZE, LIMIT);
+  GRID = new Grid(CELL_SIZE, GROWTH_LIMIT, PREDATION_THRESHOLD);
 }
 
 void draw()
@@ -51,7 +52,7 @@ void drawMouse() {
 
   if (mouseButton == RIGHT)
   {
-    GRID = new Grid(CELL_SIZE, LIMIT);
+    setup();
     return;
   }
 

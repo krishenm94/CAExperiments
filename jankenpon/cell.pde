@@ -3,6 +3,7 @@ class Cell {
   float m_size;
   color m_colour = 255;
   int m_level = 0;
+  boolean m_dontUpdate = false;
 
   Cell(float x, float y, float size) {
     m_position = new PVector(x * size, y * size);
@@ -17,6 +18,11 @@ class Cell {
   void copy(Cell other) {
     m_colour = other.m_colour;
     m_level = other.m_level;
+  }
+  
+  void copyDontUpdate(Cell other){
+    copy(other);
+    m_dontUpdate = true;
   }
 
   void grow(Cell other) {
