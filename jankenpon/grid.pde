@@ -47,7 +47,7 @@ class Grid {
           continue;
         }
 
-        updateCell(col, row);
+        updateCell2(col, row);
       }
     }
 
@@ -139,8 +139,8 @@ class Grid {
 
     int neighbourPredatorCount = getNeighbourhoodPredatorCount(cell, col, row);
 
-    if (neighbourPredatorCount < m_predationThreshold + (random.nextInt(3) - 1)) {
-      //if (neighbourPredatorCount < m_predationThreshold) {
+    //if (neighbourPredatorCount < m_predationThreshold + (random.nextInt(3) - 1)) {
+      if (neighbourPredatorCount < m_predationThreshold) {
       nextCell.copy(cell);
       return;
     }

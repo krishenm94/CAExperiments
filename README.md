@@ -18,4 +18,8 @@ Various CA rules implemented to a 2D grid:
 
 Simulation of simple snowflake formation
 
+## jankenpon
+
+Rock-Paper-Scissor Cellular Automata
+
 
