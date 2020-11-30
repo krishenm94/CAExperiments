@@ -26,3 +26,10 @@ Rock-Paper-Scissor Cellular Automata
 
 Visualising n-nary branching. Angle and number of branches varies with mouse location
 
+## lsystem
+
+References: 
+1. http://paulbourke.net/fractals/lsys/
+2. https://natureofcode.com/book/chapter-8-fractals/
+
+A simple system renderer comprising of a ruleset, a step-wise sentence generator and a turtle (renderer).
